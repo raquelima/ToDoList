@@ -1,19 +1,18 @@
 package GUI;
 
 import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 
-public class AddTask extends JFrame implements ActionListener {
+public class EditTask extends JFrame implements ActionListener {
     private JFrame frame = new JFrame();
     private JPanel formular = new JPanel();
     private JPanel titlePanel = new JPanel();
     private JPanel buttonsPanel = new JPanel();
 
-    private JLabel newTask = new JLabel("New Task");
+    private JLabel editTask = new JLabel("Edit Task");
     private JLabel title = new JLabel("Title*:", JLabel.LEFT);
     private JLabel dueDate = new JLabel("Due Date:");
     private JLabel priority = new JLabel("Priority:");
@@ -28,10 +27,10 @@ public class AddTask extends JFrame implements ActionListener {
     private JButton add = new JButton("Add");
 
     public static void main(String[] args) {
-        AddTask a = new AddTask();
+        EditTask e = new EditTask();
     }
 
-    public AddTask() {
+    public EditTask() {
         // Layout
         frame.setLayout(new BorderLayout());
         formular.setLayout(new GridLayout(4,2,5,10));
@@ -42,7 +41,7 @@ public class AddTask extends JFrame implements ActionListener {
         frame.add(buttonsPanel, BorderLayout.SOUTH);
 
         // Elements
-        titlePanel.add(newTask);
+        titlePanel.add(editTask);
         formular.add(title);
         formular.add(titleF);
         formular.add(dueDate);
@@ -55,7 +54,7 @@ public class AddTask extends JFrame implements ActionListener {
         buttonsPanel.add(add);
 
         // Design
-        newTask.setFont(new Font("Arial",Font.PLAIN,30));
+        editTask.setFont(new Font("Arial",Font.PLAIN,30));
         title.setBackground(new Color(189,191,242));
         title.setBorder(BorderFactory.createLineBorder(Color.BLUE));
         title.setOpaque(true);
@@ -72,7 +71,7 @@ public class AddTask extends JFrame implements ActionListener {
         // Borders
         formular.setBorder(BorderFactory.createEmptyBorder(0,40,10,40));
         titlePanel.setBorder(BorderFactory.createEmptyBorder(20,40,10,40));
-        buttonsPanel.setBorder(BorderFactory.createEmptyBorder(0,40,0,40));
+        buttonsPanel.setBorder(BorderFactory.createEmptyBorder(0,40,20,40));
 
         //ActionListeners
         cancel.addActionListener(new ActionListener() {
@@ -81,7 +80,7 @@ public class AddTask extends JFrame implements ActionListener {
                 frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
             }
         });
-        frame.setTitle("Add New Task");
+        frame.setTitle("Edit Task");
         frame.setSize(500, 400);
         frame.setVisible(true);
     }
