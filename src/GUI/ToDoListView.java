@@ -1,7 +1,9 @@
 package GUI;
 
 import javax.swing.*;
+import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellRenderer;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -14,11 +16,9 @@ public class ToDoListView extends JFrame implements ActionListener {
     private JPanel taskList = new JPanel();
     private JPanel buttonsPanel  = new JPanel();
 
-    private String[] columns = {"Title", "Completed", "Buttons"};
-    private String[][] rows = {{"Hausaufgaben", "Checkbox", "Details Edit Delete"},{"Hausaufgaben", "Checkbox", "Details Edit Delete"},{"Hausaufgaben", "Checkbox", "Details Edit Delete"}};
-
-    private JTable jt = new JTable(rows,columns);
-    private DefaultTableModel dm = new DefaultTableModel();
+    JTable table;
+    DefaultTableModel dm = new DefaultTableModel();
+    private JScrollPane scrollP;
 
     private JLabel toDoList = new JLabel("TO-DO List");
     private JButton newTask = new JButton("   + New task   ");
@@ -26,8 +26,6 @@ public class ToDoListView extends JFrame implements ActionListener {
     private JButton reset = new JButton("Reset");
     private JButton update = new JButton("Update");
     private JButton toDoneList = new JButton("to Done List ->");
-
-    private JScrollPane sp = new JScrollPane(jt);
 
     public static void main(String[] args) {
         ToDoListView a = new ToDoListView();
@@ -43,12 +41,16 @@ public class ToDoListView extends JFrame implements ActionListener {
         frame.add(taskList, BorderLayout.CENTER);
         frame.add(buttonsPanel, BorderLayout.SOUTH);
 
-        jt.setEnabled(false);
-
         //Elements
+        TableCellRenderer tableRenderer;
+        table = new JTable(new JTableButtonModel());
+        tableRenderer = table.getDefaultRenderer(JButton.class);
+        table.setDefaultRenderer(JCheckBox.class, new JTableButtonRenderer(tableRenderer));
+        table.setDefaultRenderer(JButton.class, new JTableButtonRenderer(tableRenderer));
+        scrollP = new JScrollPane(table);
+        taskList.add(scrollP, BorderLayout.CENTER);
         titlePanel.add(toDoList, BorderLayout.WEST);
         titlePanel.add(newTask, BorderLayout.EAST);
-        taskList.add(sp);
         buttonsPanel.add(reset);
         buttonsPanel.add(update);
         buttonsPanel.add(toDoneList);
@@ -94,3 +96,44 @@ public class ToDoListView extends JFrame implements ActionListener {
     }
 
 }
+
+class JTableButtonRenderer implements TableCellRenderer {
+    private TableCellRenderer defaultRenderer;
+    public JTableButtonRenderer(TableCellRenderer renderer) {
+        defaultRenderer = renderer;
+    }
+    public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+        if(value instanceof Component)
+            return (Component)value;
+        return defaultRenderer.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+    }
+}
+class JTableButtonModel extends AbstractTableModel{
+    JButton delete;
+    JButton details;
+    JButton edit;
+
+    private Object[][] rows = {{"Hausaufgaben", new JCheckBox(), delete = new JButton("Löschen"), details = new JButton("Detail"), edit = new JButton("ändern")}};
+    private String[] columns = {"Title", "Completed", " ", " ", " "};
+    public String getColumnName(int column) {
+        return columns[column];
+    }
+    public int getRowCount() {
+        return rows.length;
+    }
+    public int getColumnCount() {
+        return columns.length;
+    }
+    public Object getValueAt(int row, int column) {
+        return rows[row][column];
+    }
+    public boolean isCellEditable(int row, int column) {
+        return false;
+    }
+    public Class getColumnClass(int column) {
+        return getValueAt(0, column).getClass();
+    }
+
+}
+
+
