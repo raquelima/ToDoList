@@ -1,13 +1,14 @@
 package GUI;
 
+import Controller.Controller;
+
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.WindowEvent;
 
-public class DoneListView extends JFrame implements ActionListener {
+public class DoneListView {
 
     private JFrame frame = new JFrame();
     private JPanel titlePanel  = new JPanel();
@@ -28,11 +29,7 @@ public class DoneListView extends JFrame implements ActionListener {
 
     private JScrollPane sp = new JScrollPane(jt);
 
-    public static void main(String[] args) {
-        DoneListView a = new DoneListView();
-    }
-
-    public DoneListView() {
+    public DoneListView(Controller controller) {
         //Layout
         frame.setLayout(new BorderLayout());
         titlePanel.setLayout(new BorderLayout());
@@ -63,22 +60,20 @@ public class DoneListView extends JFrame implements ActionListener {
         toToDoList.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                frame.dispose();
-                ToDoListView t = new ToDoListView();
+                controller.setToDoListViewVis();
             }
         });
 
-        frame.setDefaultCloseOperation(EXIT_ON_CLOSE);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setTitle("Done List");
         frame.setSize(750, 500);
         frame.setVisible(true);
     }
 
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        // TODO Auto-generated method stub
-
+    public JFrame getFrame() {
+        return frame;
     }
+
 
 }
 

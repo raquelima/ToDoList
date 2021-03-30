@@ -1,13 +1,23 @@
 package GUI;
 
+import Controller.Controller;
+import Data.RowData;
+import Data.TaskData;
+
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
+import java.util.Locale;
 
-public class AddTask extends JFrame implements ActionListener {
+public class AddTask {
+    private JTableButtonModel t = new JTableButtonModel();
     private JFrame frame = new JFrame();
     private JPanel formular = new JPanel();
     private JPanel titlePanel = new JPanel();
@@ -19,19 +29,18 @@ public class AddTask extends JFrame implements ActionListener {
     private JLabel priority = new JLabel("Priority:");
     private JLabel description = new JLabel("Description*:");
 
+    //Field with date format
+    DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/uu");
+    DateField dateField = new DateField(dateFormatter);
+
     private JTextField titleF = new JTextField("");
-    private JTextField dueDateF = new JTextField("");
     private JTextField priorityF = new JTextField("");
     private JTextField descriptionF = new JTextField("");
 
     private JButton cancel = new JButton("Cancel");
     private JButton add = new JButton("Add");
 
-    public static void main(String[] args) {
-        AddTask a = new AddTask();
-    }
-
-    public AddTask() {
+    public AddTask(Controller controller) {
         // Layout
         frame.setLayout(new BorderLayout());
         formular.setLayout(new GridLayout(4,2,5,10));
@@ -46,7 +55,8 @@ public class AddTask extends JFrame implements ActionListener {
         formular.add(title);
         formular.add(titleF);
         formular.add(dueDate);
-        formular.add(dueDateF);
+        formular.add(dateField);
+        dateField.setValue(LocalDate.now(ZoneId.systemDefault()));
         formular.add(priority);
         formular.add(priorityF);
         formular.add(description);
@@ -78,17 +88,53 @@ public class AddTask extends JFrame implements ActionListener {
         cancel.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
+                controller.setToDoListViewVis();
             }
         });
+        add.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(titleF.getText().equals("") || descriptionF.getText().equals("")) {
+                   JOptionPane.showMessageDialog(null, "Please fill all of the required fields", "Field required", JOptionPane.ERROR_MESSAGE);
+                } else {
+                    JCheckBox checkbox = new JCheckBox();
+                    JButton delete = new JButton();
+                    JButton details = new JButton();
+                    JButton edit = new JButton();
+
+                    TaskData data = new TaskData(titleF.getText(), dateField.getText(), Integer.parseInt(priorityF.getText()), descriptionF.getText());
+                    RowData row = new RowData(titleF.getText(), checkbox, delete, details, edit );
+                    controller.newTask(data, row);
+                    controller.setToDoListViewVis();
+                }
+            }
+        });
+
+        //Window Settings
         frame.setTitle("Add New Task");
         frame.setSize(500, 400);
         frame.setVisible(true);
     }
 
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        // TODO Auto-generated method stub
-
+    public JFrame getFrame() {
+        return frame;
     }
+
 }
+
+class DateField extends JFormattedTextField {
+
+    private static final long serialVersionUID = -4070878851012651987L;
+
+    public DateField(DateTimeFormatter dateFormatter) {
+        super(dateFormatter.toFormat(LocalDate::from));
+        setPreferredSize(new Dimension(100, 26));
+    }
+
+    @Override
+    public LocalDate getValue() {
+        return (LocalDate) super.getValue();
+    }
+
+}
+
