@@ -17,8 +17,10 @@ public class ToDoListView {
     private JPanel taskList = new JPanel();
     private JPanel buttonsPanel  = new JPanel();
 
-    JTable table;
-    DefaultTableModel dm = new DefaultTableModel();
+
+    private Controller controller;
+
+    private JTable table;
     private JScrollPane scrollP;
 
     private JLabel toDoList = new JLabel("TO-DO List");
@@ -29,6 +31,17 @@ public class ToDoListView {
     private JButton toDoneList = new JButton("to Done List ->");
 
     public ToDoListView(Controller controller) {
+        this.controller = controller;
+
+        addElements();
+        loadTableModel();
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setTitle("To-Do List");
+        frame.setSize(750, 500);
+        frame.setVisible(true);
+    }
+
+    private void addElements() {
         //Layout
         frame.setLayout(new BorderLayout());
         titlePanel.setLayout(new BorderLayout());
@@ -40,8 +53,7 @@ public class ToDoListView {
 
         //Elements
         TableCellRenderer tableRenderer;
-        table = new JTable(new JTableButtonModel());
-        dm.addRow(new Object[]{controller.getRows()});
+        table = new JTable();
         tableRenderer = table.getDefaultRenderer(JButton.class);
         table.setDefaultRenderer(JCheckBox.class, new JTableButtonRenderer(tableRenderer));
         table.setDefaultRenderer(JButton.class, new JTableButtonRenderer(tableRenderer));
@@ -65,36 +77,25 @@ public class ToDoListView {
         buttonsPanel.setBorder(BorderFactory.createEmptyBorder(0,60,20,60));
 
         //Buttons
-        newTask.addActionListener(new ActionListener() {
+        newTask.addActionListener(e -> controller.setAddTaskViewVis());
 
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                controller.setAddTaskViewVis();
-            }
-        });
-
-        toDoneList.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                controller.setDoneListViewVis();
-            }
-        });
-
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setTitle("To-Do List");
-        frame.setSize(750, 500);
-        frame.setVisible(true);
+        toDoneList.addActionListener(e -> controller.setDoneListViewVis());
     }
 
-    public JFrame getFrame() {
-        return frame;
+    private void loadTableModel() {
+        AbstractTableModel model = controller.getModel();
+        table.setModel(model);
+    }
+
+    public void DisposeView() {
+        this.frame.dispose();
     }
 }
 
 class JTableButtonRenderer implements TableCellRenderer {
     private TableCellRenderer defaultRenderer;
     public JTableButtonRenderer(TableCellRenderer renderer) {
-        defaultRenderer = renderer;
+        this.defaultRenderer = renderer;
     }
     public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
         if(value instanceof Component)
@@ -103,35 +104,5 @@ class JTableButtonRenderer implements TableCellRenderer {
     }
 }
 
-class JTableButtonModel extends AbstractTableModel {
-    JButton delete;
-    JButton details;
-    JButton edit;
-
-    private Object[][] rows;
-    private String[] columns = {"Title", "Completed", " ", " ", " "};
-
-
-    public String getColumnName(int column) {
-        return columns[column];
-    }
-        public int getRowCount() {
-        return rows.length;
-    }
-    public int getColumnCount() {
-        return columns.length;
-    }
-    public Object getValueAt(int row, int column) {
-        return rows[row][column];
-    }
-
-    public boolean isCellEditable(int row, int column) {
-        return false;
-    }
-    public Class getColumnClass(int column) {
-        return getValueAt(0, column).getClass();
-    }
-
-}
 
 
