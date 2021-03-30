@@ -8,6 +8,7 @@ import GUI.DoneListView;
 import GUI.ToDoListView;
 import Model.Model;
 
+import javax.swing.table.AbstractTableModel;
 import java.util.ArrayList;
 
 public class Controller {
@@ -19,9 +20,13 @@ public class Controller {
 
 
     public Controller() {
-        model = new Model();
+        this.model = new Model();
 
         setToDoListViewVis();
+    }
+
+    public AbstractTableModel getModel() {
+        return model.getModel();
     }
 
     public void setToDoListViewVis() {
@@ -39,18 +44,18 @@ public class Controller {
         addTask = new AddTask(this);
     }
 
-    public ArrayList getArray() {
-        return model.getArray();
-    }
+//    public ArrayList getArray() {
+//        return model.getArray();
+//    }
 
-    public Object[][] getRows(){
-        return model.getRows();
-    }
+//    public Object[][] getRows(){
+//        return model.getRows();
+//    }
 
     private void cleanView() {
 
         if (toDoListView != null) {
-            toDoListView.getFrame().dispose();
+            toDoListView.DisposeView();
         }
         if (doneListView != null) {
             doneListView.getFrame().dispose();

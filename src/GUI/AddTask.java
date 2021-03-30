@@ -17,7 +17,7 @@ import java.time.format.FormatStyle;
 import java.util.Locale;
 
 public class AddTask {
-    private JTableButtonModel t = new JTableButtonModel();
+//    private JTableButtonModel t = new JTableButtonModel();
     private JFrame frame = new JFrame();
     private JPanel formular = new JPanel();
     private JPanel titlePanel = new JPanel();

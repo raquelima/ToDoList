@@ -56,4 +56,8 @@ public class RowData {
     public void setDetails(JButton details) {
         this.details = details;
     }
+
+    public Object[] getAsArray(){
+        return new Object[]{getTitle(),getCheckBox(),getDelete(),getEdit(),getDetails()};
+    }
 }
