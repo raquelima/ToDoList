@@ -28,7 +28,11 @@ public class Model {
 //    }
 
     public Model() {
-        rows.add(new RowData("kekw",new JCheckBox("yeah"),new JButton("löschen"),new JButton("edit"),new JButton("details")));
+        JButton s = new JButton("löschen");
+        s.addActionListener((e) ->{
+            System.out.println("test lima");
+        });
+        rows.add(new RowData("kekw",new JCheckBox("yeah"),s,new JButton("edit"),new JButton("details")));
     }
 
     public AbstractTableModel getModel() {

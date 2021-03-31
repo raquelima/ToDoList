@@ -4,18 +4,17 @@ import Controller.Controller;
 
 import javax.swing.*;
 import javax.swing.table.AbstractTableModel;
-import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class ToDoListView {
 
     private JFrame frame = new JFrame();
-    private JPanel titlePanel  = new JPanel();
+    private JPanel titlePanel = new JPanel();
     private JPanel taskList = new JPanel();
-    private JPanel buttonsPanel  = new JPanel();
+    private JPanel buttonsPanel = new JPanel();
 
 
     private Controller controller;
@@ -46,7 +45,7 @@ public class ToDoListView {
         frame.setLayout(new BorderLayout());
         titlePanel.setLayout(new BorderLayout());
         taskList.setLayout(new BorderLayout());
-        buttonsPanel.setLayout(new GridLayout(1,3,30,0));
+        buttonsPanel.setLayout(new GridLayout(1, 3, 30, 0));
         frame.add(titlePanel, BorderLayout.NORTH);
         frame.add(taskList, BorderLayout.CENTER);
         frame.add(buttonsPanel, BorderLayout.SOUTH);
@@ -57,6 +56,8 @@ public class ToDoListView {
         tableRenderer = table.getDefaultRenderer(JButton.class);
         table.setDefaultRenderer(JCheckBox.class, new JTableButtonRenderer(tableRenderer));
         table.setDefaultRenderer(JButton.class, new JTableButtonRenderer(tableRenderer));
+
+
         scrollP = new JScrollPane(table);
         taskList.add(scrollP, BorderLayout.CENTER);
         titlePanel.add(toDoList, BorderLayout.WEST);
@@ -66,15 +67,15 @@ public class ToDoListView {
         buttonsPanel.add(toDoneList);
 
         // Design
-        toDoList.setFont(new Font("Arial",Font.PLAIN,35));
-        newTask.setBackground(new Color(189,191,242));
+        toDoList.setFont(new Font("Arial", Font.PLAIN, 35));
+        newTask.setBackground(new Color(189, 191, 242));
         newTask.setBorder(BorderFactory.createLineBorder(Color.BLUE));
         newTask.setOpaque(true);
 
         // Borders
-        titlePanel.setBorder(BorderFactory.createEmptyBorder(20,60,0,60));
-        taskList.setBorder(BorderFactory.createEmptyBorder(20,60,20,60));
-        buttonsPanel.setBorder(BorderFactory.createEmptyBorder(0,60,20,60));
+        titlePanel.setBorder(BorderFactory.createEmptyBorder(20, 60, 0, 60));
+        taskList.setBorder(BorderFactory.createEmptyBorder(20, 60, 20, 60));
+        buttonsPanel.setBorder(BorderFactory.createEmptyBorder(0, 60, 20, 60));
 
         //Buttons
         newTask.addActionListener(e -> controller.setAddTaskViewVis());
@@ -85,6 +86,22 @@ public class ToDoListView {
     private void loadTableModel() {
         AbstractTableModel model = controller.getModel();
         table.setModel(model);
+
+        table.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                JTable t = (JTable) e.getComponent();
+                int columindex = t.columnAtPoint(e.getPoint());
+                int rowindex = t.rowAtPoint(e.getPoint());
+                Object cell = table.getModel().getValueAt(rowindex, columindex);
+                if (cell instanceof JButton) {
+                    JButton b = (JButton) table.getModel().getValueAt(rowindex, columindex);
+                    b.doClick();
+                }
+                super.mouseClicked(e);
+            }
+        });
+
     }
 
     public void DisposeView() {
@@ -94,15 +111,20 @@ public class ToDoListView {
 
 class JTableButtonRenderer implements TableCellRenderer {
     private TableCellRenderer defaultRenderer;
+
     public JTableButtonRenderer(TableCellRenderer renderer) {
         this.defaultRenderer = renderer;
     }
+
     public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
-        if(value instanceof Component)
-            return (Component)value;
+        if (value instanceof Component)
+            return (Component) value;
         return defaultRenderer.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
     }
 }
+
+
+
 
 
 
