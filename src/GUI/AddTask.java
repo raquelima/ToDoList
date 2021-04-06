@@ -5,19 +5,20 @@ import Data.RowData;
 import Data.TaskData;
 
 import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.WindowEvent;
+
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
-import java.time.format.FormatStyle;
-import java.util.Locale;
+
+import static com.sun.tools.internal.xjc.reader.Ring.add;
+
 
 public class AddTask {
-//    private JTableButtonModel t = new JTableButtonModel();
+
     private JFrame frame = new JFrame();
     private JPanel formular = new JPanel();
     private JPanel titlePanel = new JPanel();
@@ -29,14 +30,12 @@ public class AddTask {
     private JLabel priority = new JLabel("Priority:");
     private JLabel description = new JLabel("Description*:");
 
-    private int length;
-
     //Field with date format
     DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/uu");
     DateField dateField = new DateField(dateFormatter);
 
     private JTextField titleF = new JTextField("");
-    private JTextField priorityF = new JTextField("");
+    private JTextField priorityF = new JTextField("0");
     private JTextField descriptionF = new JTextField("");
 
     private JButton cancel = new JButton("Cancel");
@@ -44,7 +43,6 @@ public class AddTask {
 
     public AddTask(Controller controller) {
 
-        length = controller.length();
 
         // Layout
         frame.setLayout(new BorderLayout());
@@ -90,50 +88,24 @@ public class AddTask {
         buttonsPanel.setBorder(BorderFactory.createEmptyBorder(0,40,0,40));
 
         //ActionListeners
-        cancel.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                controller.setToDoListViewVis();
-            }
-        });
+        cancel.addActionListener(e -> this.frame.dispose());
         add.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if(titleF.getText().equals("") || descriptionF.getText().equals("")) {
                    JOptionPane.showMessageDialog(null, "Please fill all of the required fields", "Field required", JOptionPane.ERROR_MESSAGE);
+                    if(titleF.getText().equals("")) {
+                        titleF.setBackground(new Color(255,105,97)); }
+                    if(descriptionF.getText().equals("")) {
+                        descriptionF.setBackground(new Color(255,105,97));}
                 } else {
                     JCheckBox checkbox = new JCheckBox();
-                    checkbox.addActionListener(new ActionListener() {
-                        @Override
-                        public void actionPerformed(ActionEvent e) {
-
-                        }
-                    });
 
                     JButton delete = new JButton("Delete");
-                    delete.addActionListener(new ActionListener() {
-                        @Override
-                        public void actionPerformed(ActionEvent e) {
-                            controller.deleteTask(controller.length());
-                            controller.setToDoListViewVis();
-                        }
-                    });
 
                     JButton details = new JButton("Details");
-                    details.addActionListener(new ActionListener() {
-                        @Override
-                        public void actionPerformed(ActionEvent e) {
-                            controller.setDetailViewVis(length);
-                        }
-                    });
 
                     JButton edit = new JButton("Edit");
-                    edit.addActionListener(new ActionListener() {
-                        @Override
-                        public void actionPerformed(ActionEvent e) {
-                            controller.setEditTaskVis();
-                        }
-                    });
 
                     TaskData data = new TaskData(titleF.getText(), dateField.getText(), Integer.parseInt(priorityF.getText()), descriptionF.getText());
                     RowData row = new RowData(titleF.getText(), checkbox, delete, details, edit );
@@ -149,8 +121,8 @@ public class AddTask {
         frame.setVisible(true);
     }
 
-    public JFrame getFrame() {
-        return frame;
+    public void DisposeView() {
+        this.frame.dispose();
     }
 
 }

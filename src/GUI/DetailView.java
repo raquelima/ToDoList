@@ -51,8 +51,7 @@ public class DetailView extends JFrame implements ActionListener {
         frame.add(buttonsPanel, BorderLayout.SOUTH);
 
         // Elements
-
-        TaskData task = controller.getDetails(index);
+        TaskData task = controller.getTaskDetails(index);
 
         titlePanel.add(newTask);
         newTask.setText(task.getTitle());
@@ -95,8 +94,12 @@ public class DetailView extends JFrame implements ActionListener {
         buttonsPanel.setBorder(BorderFactory.createEmptyBorder(0,40,0,40));
 
         //Button
-        back.addActionListener(e -> controller.setToDoListViewVis());
+        back.addActionListener(e -> this.frame.dispose());
 
+    }
+
+    public void DisposeView() {
+        this.frame.dispose();
     }
 
     @Override

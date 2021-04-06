@@ -1,11 +1,15 @@
 package GUI;
 
 import Controller.Controller;
+import Data.RowData;
+import Data.TaskData;
 
 import javax.swing.*;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.TableCellRenderer;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -16,13 +20,12 @@ public class ToDoListView {
     private JPanel taskList = new JPanel();
     private JPanel buttonsPanel = new JPanel();
 
-
     private Controller controller;
 
     private JTable table;
     private JScrollPane scrollP;
 
-    private JLabel toDoList = new JLabel("TO-DO List");
+    private JLabel toDoList = new JLabel("To-Do List");
     private JButton newTask = new JButton("   + New task   ");
 
     private JButton reset = new JButton("Reset");
@@ -80,6 +83,30 @@ public class ToDoListView {
         //Buttons
         newTask.addActionListener(e -> controller.setAddTaskViewVis());
         toDoneList.addActionListener(e -> controller.setDoneListViewVis());
+        reset.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                controller.deleteAllTasks();
+                controller.setToDoListViewVis();
+            }
+        });
+        update.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                for (RowData i: controller.getAllRows()) {
+                    if (i.getCheckBox().isSelected())
+                    {
+                        controller.getDoneTasksRow().add(i);
+
+                    }
+                }
+
+                controller.getAllRows().removeAll(controller.getDoneTasksRow());
+                controller.setToDoListViewVis();
+
+            }
+        });
     }
 
     private void loadTableModel() {
@@ -95,8 +122,40 @@ public class ToDoListView {
                 Object cell = table.getModel().getValueAt(rowindex, columindex);
                 if (cell instanceof JButton) {
                     JButton b = (JButton) table.getModel().getValueAt(rowindex, columindex);
+
+                    if (b.getText() == "Delete"){
+                        b.addActionListener(new ActionListener() {
+                            @Override
+                            public void actionPerformed(ActionEvent e) {
+                                controller.deleteTask(rowindex);
+                                controller.setToDoListViewVis();
+                            }
+                        });
+                    }
+                    if (b.getText() == "Details"){
+                        b.addActionListener(new ActionListener() {
+                            @Override
+                            public void actionPerformed(ActionEvent e) {
+                                controller.setDetailViewVis(rowindex);
+                            }
+                        });
+                    }
+                    if (b.getText() == "Edit"){
+                        b.addActionListener(new ActionListener() {
+                            @Override
+                            public void actionPerformed(ActionEvent e) {
+                                controller.setEditTaskVis(rowindex);
+                            }
+                        });
+                    }
                     b.doClick();
                 }
+                if (cell instanceof JCheckBox){
+                    JCheckBox c = (JCheckBox) table.getModel().getValueAt(rowindex, columindex);
+                    c.setSelected(true);
+                    controller.setToDoListViewVis();
+                }
+
                 super.mouseClicked(e);
             }
         });

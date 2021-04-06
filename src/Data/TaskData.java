@@ -2,13 +2,13 @@ package Data;
 
 public class TaskData {
     private String title;
-    private String dueData;
+    private String dueDate;
     private int priority;
     private String description;
 
-    public TaskData(String title, String dueData, int priority, String description) {
+    public TaskData(String title, String dueDate, int priority, String description) {
         this.title = title;
-        this.dueData = dueData;
+        this.dueDate = dueDate;
         this.priority = priority;
         this.description = description;
     }
@@ -22,11 +22,11 @@ public class TaskData {
     }
 
     public String getDueDate() {
-        return dueData;
+        return dueDate;
     }
 
-    public void setDueData(String dueData) {
-        this.dueData = dueData;
+    public void setDueDate(String dueDate) {
+        this.dueDate = dueDate;
     }
 
     public int getPriority() {

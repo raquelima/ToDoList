@@ -16,17 +16,18 @@ public class Controller {
     private AddTask addTask;
     private DetailView detailView;
     private EditTask editTask;
-    private TaskData taskData;
 
 
     public Controller() {
         this.model = new Model();
-
         setToDoListViewVis();
     }
 
     public AbstractTableModel getModel() {
         return model.getModel();
+    }
+    public AbstractTableModel getDoneModel() {
+        return model.getDoneModel();
     }
 
     public void setToDoListViewVis() {
@@ -40,35 +41,36 @@ public class Controller {
     }
 
     public void setAddTaskViewVis() {
-        cleanView();
         addTask = new AddTask(this);
     }
 
     public void setDetailViewVis(int index) {
-        cleanView();
         detailView = new DetailView(this, index);
     }
 
-    public void setEditTaskVis() {
-        cleanView();
-        editTask = new EditTask(this);
-    }
-
-    public int length(){
-        return model.length();
+    public void setEditTaskVis(int index) {
+        editTask = new EditTask(this, index);
     }
 
     public void deleteTask(int length){
         model.deleteTask(length);
     }
 
-//    public ArrayList getArray() {
-//        return model.getArray();
-//    }
+    public void deleteDoneTask(int length){
+        model.deleteDoneTask(length);
+    }
 
-//    public Object[][] getRows(){
-//        return model.getRows();
-//    }
+    public void deleteAllTasks(){
+        model.deleteAllTasks();
+    }
+
+    public ArrayList<RowData> getAllRows(){
+        return model.getAllRows();
+    }
+
+    public ArrayList<RowData> getDoneTasksRow(){
+        return model.getDoneTasksRow();
+    }
 
     private void cleanView() {
 
@@ -76,10 +78,16 @@ public class Controller {
             toDoListView.DisposeView();
         }
         if (doneListView != null) {
-            doneListView.getFrame().dispose();
+            doneListView.DisposeView();
         }
         if (addTask != null) {
-            addTask.getFrame().dispose();
+            addTask.DisposeView();
+        }
+        if (detailView != null) {
+            detailView.DisposeView();
+        }
+        if (editTask != null) {
+            editTask.DisposeView();
         }
     }
 
@@ -87,8 +95,13 @@ public class Controller {
         model.newTask(task, row);
     }
 
-    public TaskData getDetails(int index){
-        return model.getDetails(index);
+    public TaskData getTaskDetails(int index){
+        return model.getTaskDetails(index);
     }
+
+    public RowData getRowDetails(int index){
+        return model.getRowDetails(index);
+    }
+
 
 }

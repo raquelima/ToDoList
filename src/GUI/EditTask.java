@@ -1,6 +1,8 @@
 package GUI;
 
 import Controller.Controller;
+import Data.RowData;
+import Data.TaskData;
 
 import javax.swing.*;
 import java.awt.*;
@@ -30,17 +32,22 @@ public class EditTask extends JFrame implements ActionListener {
     private JButton cancel = new JButton("Cancel");
     private JButton save = new JButton("Save");
 
-    public EditTask(Controller controller) {
+    public EditTask(Controller controller, int index) {
         this.controller = controller;
 
-        addElements();
+        addElements(index);
 
         frame.setTitle("Edit Task");
         frame.setSize(500, 400);
         frame.setVisible(true);
     }
 
-    private void addElements(){
+    private void addElements(int index){
+
+        TaskData task = controller.getTaskDetails(index);
+        RowData row = controller.getRowDetails(index);
+
+
         // Layout
         frame.setLayout(new BorderLayout());
         formular.setLayout(new GridLayout(4,2,5,10));
@@ -52,14 +59,19 @@ public class EditTask extends JFrame implements ActionListener {
 
         // Elements
         titlePanel.add(editTask);
+        editTask.setText(task.getTitle());
         formular.add(title);
         formular.add(titleF);
+        titleF.setText(task.getTitle());
         formular.add(dueDate);
         formular.add(dueDateF);
+        dueDateF.setText(task.getDueDate());
         formular.add(priority);
         formular.add(priorityF);
+        priorityF.setText(String.valueOf(task.getPriority()));
         formular.add(description);
         formular.add(descriptionF);
+        descriptionF.setText(task.getDescription());
         buttonsPanel.add(cancel);
         buttonsPanel.add(save);
 
@@ -88,9 +100,18 @@ public class EditTask extends JFrame implements ActionListener {
         save.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                task.setTitle(titleF.getText());
+                row.setTitle(titleF.getText());
+                task.setDueDate(dueDateF.getText());
+                task.setPriority(Integer.parseInt(priorityF.getText()));
+                task.setDescription(descriptionF.getText());
+                controller.setToDoListViewVis();
             }
         });
+    }
+
+    public void DisposeView() {
+        this.frame.dispose();
     }
 
     @Override
