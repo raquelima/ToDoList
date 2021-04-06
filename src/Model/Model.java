@@ -39,6 +39,7 @@ public class Model {
 
     public void deleteTask(int length){
         rows.remove(length);
+        tasks.remove(length);
     }
 
     public AbstractTableModel getModel() {
@@ -72,24 +73,24 @@ public class Model {
         };
     }
 
-    public String getDetails(int index, int entry){
+    public TaskData getDetails(int index){
 
-        TaskData user = tasks.get(index);
+        return tasks.get(index);
 
-        switch (entry) {
-            case 1:
-                value = user.getTitle();
-                break;
-            case 2:
-                value = user.getDueDate();
-                break;
-            case 3:
-                value = String.valueOf(user.getPriority());
-                break;
-            case 4:
-                value = user.getDescription();
-                break;
-        }
-        return value;
+//        switch (entry) {
+//            case 1:
+//                value = user.getTitle();
+//                break;
+//            case 2:
+//                value = user.getDueDate();
+//                break;
+//            case 3:
+//                value = String.valueOf(user.getPriority());
+//                break;
+//            case 4:
+//                value = user.getDescription();
+//                break;
+//        }
+//        return value;
     }
 }

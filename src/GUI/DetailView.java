@@ -1,6 +1,7 @@
 package GUI;
 
 import Controller.Controller;
+import Data.TaskData;
 
 import javax.swing.*;
 import java.awt.*;
@@ -50,23 +51,26 @@ public class DetailView extends JFrame implements ActionListener {
         frame.add(buttonsPanel, BorderLayout.SOUTH);
 
         // Elements
+
+        TaskData task = controller.getDetails(index);
+
         titlePanel.add(newTask);
-        newTask.setText(controller.getDetails(index,1));
+        newTask.setText(task.getTitle());
         formular.add(title);
         formular.add(titleF);
-        titleF.setText(controller.getDetails(index, 1));
+        titleF.setText(task.getTitle());
         titleF.setEditable(false);
         formular.add(dueDate);
         formular.add(dueDateF);
-        dueDateF.setText(controller.getDetails(index,2));
+        dueDateF.setText(task.getDueDate());
         dueDateF.setEditable(false);
         formular.add(priority);
         formular.add(priorityF);
-        priorityF.setText(controller.getDetails(index,3));
+        priorityF.setText(String.valueOf(task.getPriority()));
         priorityF.setEditable(false);
         formular.add(description);
         formular.add(descriptionF);
-        descriptionF.setText(controller.getDetails(index,4));
+        descriptionF.setText(task.getDescription());
         descriptionF.setEditable(false);
         buttonsPanel.add(back);
 
