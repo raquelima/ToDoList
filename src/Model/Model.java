@@ -13,6 +13,8 @@ public class Model {
 
     private ArrayList<RowData> rows = new ArrayList<>();
 
+    private String value;
+
     public void newTask(TaskData task, RowData row) {
         tasks.add(task);
         rows.add(row);
@@ -28,16 +30,20 @@ public class Model {
 //    }
 
     public Model() {
-        JButton s = new JButton("löschen");
-        s.addActionListener((e) ->{
-            System.out.println("test lima");
-        });
-        rows.add(new RowData("kekw",new JCheckBox("yeah"),s,new JButton("edit"),new JButton("details")));
+
+    }
+
+    public int length(){
+        return (rows.size() < 0)? rows.size()-1 : 0;
+    }
+
+    public void deleteTask(int length){
+        rows.remove(length);
     }
 
     public AbstractTableModel getModel() {
 
-        String[] reihen = new String[]{"Titel", "Checkbox", "Delete", "Edit", "Details"};
+        String[] reihen = new String[]{"Title", "Checkbox", "Delete", "Details", "Edit"};
 
         return new AbstractTableModel() {
             @Override
@@ -64,5 +70,26 @@ public class Model {
 
 
         };
+    }
+
+    public String getDetails(int index, int entry){
+
+        TaskData user = tasks.get(index);
+
+        switch (entry) {
+            case 1:
+                value = user.getTitle();
+                break;
+            case 2:
+                value = user.getDueDate();
+                break;
+            case 3:
+                value = String.valueOf(user.getPriority());
+                break;
+            case 4:
+                value = user.getDescription();
+                break;
+        }
+        return value;
     }
 }

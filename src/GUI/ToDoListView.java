@@ -79,7 +79,6 @@ public class ToDoListView {
 
         //Buttons
         newTask.addActionListener(e -> controller.setAddTaskViewVis());
-
         toDoneList.addActionListener(e -> controller.setDoneListViewVis());
     }
 

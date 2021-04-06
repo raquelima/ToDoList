@@ -1,5 +1,7 @@
 package GUI;
 
+import Controller.Controller;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -11,6 +13,8 @@ public class EditTask extends JFrame implements ActionListener {
     private JPanel formular = new JPanel();
     private JPanel titlePanel = new JPanel();
     private JPanel buttonsPanel = new JPanel();
+
+    private Controller controller;
 
     private JLabel editTask = new JLabel("Edit Task");
     private JLabel title = new JLabel("Title*:", JLabel.LEFT);
@@ -24,13 +28,19 @@ public class EditTask extends JFrame implements ActionListener {
     private JTextField descriptionF = new JTextField("");
 
     private JButton cancel = new JButton("Cancel");
-    private JButton add = new JButton("Add");
+    private JButton save = new JButton("Save");
 
-    public static void main(String[] args) {
-        EditTask e = new EditTask();
+    public EditTask(Controller controller) {
+        this.controller = controller;
+
+        addElements();
+
+        frame.setTitle("Edit Task");
+        frame.setSize(500, 400);
+        frame.setVisible(true);
     }
 
-    public EditTask() {
+    private void addElements(){
         // Layout
         frame.setLayout(new BorderLayout());
         formular.setLayout(new GridLayout(4,2,5,10));
@@ -51,7 +61,7 @@ public class EditTask extends JFrame implements ActionListener {
         formular.add(description);
         formular.add(descriptionF);
         buttonsPanel.add(cancel);
-        buttonsPanel.add(add);
+        buttonsPanel.add(save);
 
         // Design
         editTask.setFont(new Font("Arial",Font.PLAIN,30));
@@ -74,15 +84,13 @@ public class EditTask extends JFrame implements ActionListener {
         buttonsPanel.setBorder(BorderFactory.createEmptyBorder(0,40,20,40));
 
         //ActionListeners
-        cancel.addActionListener(new ActionListener() {
+        cancel.addActionListener(e -> controller.setToDoListViewVis());
+        save.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
+
             }
         });
-        frame.setTitle("Edit Task");
-        frame.setSize(500, 400);
-        frame.setVisible(true);
     }
 
     @Override

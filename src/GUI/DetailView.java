@@ -1,5 +1,7 @@
 package GUI;
 
+import Controller.Controller;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -11,7 +13,9 @@ public class DetailView extends JFrame implements ActionListener {
     private JPanel titlePanel = new JPanel();
     private JPanel buttonsPanel = new JPanel();
 
-    private JLabel newTask = new JLabel("New Task");
+    private Controller controller;
+
+    private JLabel newTask = new JLabel("");
     private JLabel title = new JLabel("Title*:", JLabel.LEFT);
     private JLabel dueDate = new JLabel("Due Date:");
     private JLabel priority = new JLabel("Priority:");
@@ -24,11 +28,18 @@ public class DetailView extends JFrame implements ActionListener {
 
     private JButton back = new JButton("Back to list");
 
-    public static void main(String[] args) {
-        DetailView a = new DetailView();
+    public DetailView(Controller controller, int index) {
+        this.controller = controller;
+
+        addElements(index);
+
+        //Window Settings
+        frame.setTitle("Detail View");
+        frame.setSize(500, 400);
+        frame.setVisible(true);
     }
 
-    public DetailView() {
+    private void addElements(int index){
         // Layout
         frame.setLayout(new BorderLayout());
         formular.setLayout(new GridLayout(4,2,5,10));
@@ -40,14 +51,23 @@ public class DetailView extends JFrame implements ActionListener {
 
         // Elements
         titlePanel.add(newTask);
+        newTask.setText(controller.getDetails(index,1));
         formular.add(title);
         formular.add(titleF);
+        titleF.setText(controller.getDetails(index, 1));
+        titleF.setEditable(false);
         formular.add(dueDate);
         formular.add(dueDateF);
+        dueDateF.setText(controller.getDetails(index,2));
+        dueDateF.setEditable(false);
         formular.add(priority);
         formular.add(priorityF);
+        priorityF.setText(controller.getDetails(index,3));
+        priorityF.setEditable(false);
         formular.add(description);
         formular.add(descriptionF);
+        descriptionF.setText(controller.getDetails(index,4));
+        descriptionF.setEditable(false);
         buttonsPanel.add(back);
 
         // Design
@@ -70,11 +90,9 @@ public class DetailView extends JFrame implements ActionListener {
         titlePanel.setBorder(BorderFactory.createEmptyBorder(20,40,10,40));
         buttonsPanel.setBorder(BorderFactory.createEmptyBorder(0,40,0,40));
 
-        //Window Settings
-        frame.setDefaultCloseOperation(EXIT_ON_CLOSE);
-        frame.setTitle("Add New Task");
-        frame.setSize(500, 400);
-        frame.setVisible(true);
+        //Button
+        back.addActionListener(e -> controller.setToDoListViewVis());
+
     }
 
     @Override

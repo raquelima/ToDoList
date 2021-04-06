@@ -21,7 +21,7 @@ public class TaskData {
         this.title = title;
     }
 
-    public String getDueData() {
+    public String getDueDate() {
         return dueData;
     }
 

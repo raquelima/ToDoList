@@ -2,10 +2,8 @@ package Controller;
 
 import Data.RowData;
 import Data.TaskData;
-import GUI.AddTask;
-import GUI.DoneListView;
+import GUI.*;
 
-import GUI.ToDoListView;
 import Model.Model;
 
 import javax.swing.table.AbstractTableModel;
@@ -16,6 +14,8 @@ public class Controller {
     private ToDoListView toDoListView;
     private DoneListView doneListView;
     private AddTask addTask;
+    private DetailView detailView;
+    private EditTask editTask;
     private TaskData taskData;
 
 
@@ -44,6 +44,24 @@ public class Controller {
         addTask = new AddTask(this);
     }
 
+    public void setDetailViewVis(int index) {
+        cleanView();
+        detailView = new DetailView(this, index);
+    }
+
+    public void setEditTaskVis() {
+        cleanView();
+        editTask = new EditTask(this);
+    }
+
+    public int length(){
+        return model.length();
+    }
+
+    public void deleteTask(int length){
+        model.deleteTask(length);
+    }
+
 //    public ArrayList getArray() {
 //        return model.getArray();
 //    }
@@ -67,6 +85,10 @@ public class Controller {
 
     public void newTask(TaskData task,RowData row){
         model.newTask(task, row);
+    }
+
+    public String getDetails(int index, int entry){
+        return model.getDetails(index, entry);
     }
 
 }

@@ -29,6 +29,8 @@ public class AddTask {
     private JLabel priority = new JLabel("Priority:");
     private JLabel description = new JLabel("Description*:");
 
+    private int length;
+
     //Field with date format
     DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/uu");
     DateField dateField = new DateField(dateFormatter);
@@ -41,6 +43,9 @@ public class AddTask {
     private JButton add = new JButton("Add");
 
     public AddTask(Controller controller) {
+
+        length = controller.length();
+
         // Layout
         frame.setLayout(new BorderLayout());
         formular.setLayout(new GridLayout(4,2,5,10));
@@ -98,9 +103,37 @@ public class AddTask {
                    JOptionPane.showMessageDialog(null, "Please fill all of the required fields", "Field required", JOptionPane.ERROR_MESSAGE);
                 } else {
                     JCheckBox checkbox = new JCheckBox();
-                    JButton delete = new JButton();
-                    JButton details = new JButton();
-                    JButton edit = new JButton();
+                    checkbox.addActionListener(new ActionListener() {
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+
+                        }
+                    });
+
+                    JButton delete = new JButton("Delete");
+                    delete.addActionListener(new ActionListener() {
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+                            controller.deleteTask(controller.length());
+                            controller.setToDoListViewVis();
+                        }
+                    });
+
+                    JButton details = new JButton("Details");
+                    details.addActionListener(new ActionListener() {
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+                            controller.setDetailViewVis(length);
+                        }
+                    });
+
+                    JButton edit = new JButton("Edit");
+                    edit.addActionListener(new ActionListener() {
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+                            controller.setEditTaskVis();
+                        }
+                    });
 
                     TaskData data = new TaskData(titleF.getText(), dateField.getText(), Integer.parseInt(priorityF.getText()), descriptionF.getText());
                     RowData row = new RowData(titleF.getText(), checkbox, delete, details, edit );
