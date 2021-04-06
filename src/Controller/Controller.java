@@ -87,8 +87,8 @@ public class Controller {
         model.newTask(task, row);
     }
 
-    public String getDetails(int index, int entry){
-        return model.getDetails(index, entry);
+    public TaskData getDetails(int index){
+        return model.getDetails(index);
     }
 
 }
