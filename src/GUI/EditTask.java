@@ -11,6 +11,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 
 public class EditTask extends JFrame implements ActionListener {
+
     private JFrame frame = new JFrame();
     private JPanel formular = new JPanel();
     private JPanel titlePanel = new JPanel();
@@ -26,7 +27,8 @@ public class EditTask extends JFrame implements ActionListener {
 
     private JTextField titleF = new JTextField("");
     private JTextField dueDateF = new JTextField("");
-    private JTextField priorityF = new JTextField("");
+    private String[] priorityF = {"1", "2", "3"};
+    private JComboBox priorities = new JComboBox(priorityF);
     private JTextField descriptionF = new JTextField("");
 
     private JButton cancel = new JButton("Cancel");
@@ -67,8 +69,8 @@ public class EditTask extends JFrame implements ActionListener {
         formular.add(dueDateF);
         dueDateF.setText(task.getDueDate());
         formular.add(priority);
-        formular.add(priorityF);
-        priorityF.setText(String.valueOf(task.getPriority()));
+        formular.add(priorities);
+        priorities.setSelectedItem(String.valueOf(task.getPriority()));
         formular.add(description);
         formular.add(descriptionF);
         descriptionF.setText(task.getDescription());
@@ -76,7 +78,8 @@ public class EditTask extends JFrame implements ActionListener {
         buttonsPanel.add(save);
 
         // Design
-        editTask.setFont(new Font("Arial",Font.PLAIN,30));
+        editTask.setFont(new Font("",Font.PLAIN,30));
+        editTask.setForeground((new Color(145, 129, 225)));
         title.setBackground(new Color(189,191,242));
         title.setBorder(BorderFactory.createLineBorder(Color.BLUE));
         title.setOpaque(true);
@@ -89,21 +92,24 @@ public class EditTask extends JFrame implements ActionListener {
         description.setBackground(new Color(189,191,242));
         description.setBorder(BorderFactory.createLineBorder(Color.BLUE));
         description.setOpaque(true);
+        titlePanel.setBackground(new Color(255, 201, 92));
+        formular.setBackground(new Color(242, 95, 92));
+        buttonsPanel.setBackground(new Color(242, 95, 92));
 
         // Borders
-        formular.setBorder(BorderFactory.createEmptyBorder(0,40,10,40));
+        formular.setBorder(BorderFactory.createEmptyBorder(10,40,15,40));
         titlePanel.setBorder(BorderFactory.createEmptyBorder(20,40,10,40));
         buttonsPanel.setBorder(BorderFactory.createEmptyBorder(0,40,20,40));
 
         //ActionListeners
-        cancel.addActionListener(e -> controller.setToDoListViewVis());
+        cancel.addActionListener(e -> DisposeView());
         save.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 task.setTitle(titleF.getText());
                 row.setTitle(titleF.getText());
                 task.setDueDate(dueDateF.getText());
-                task.setPriority(Integer.parseInt(priorityF.getText()));
+                task.setPriority(Integer.parseInt((String) priorities.getSelectedItem()));
                 task.setDescription(descriptionF.getText());
                 controller.setToDoListViewVis();
             }

@@ -25,8 +25,10 @@ public class ToDoListView {
     private JTable table;
     private JScrollPane scrollP;
 
-    private JLabel toDoList = new JLabel("To-Do List");
-    private JButton newTask = new JButton("   + New task   ");
+    ImageIcon image = new ImageIcon("src/Images/generatedtext.png");
+    private JLabel toDoList = new JLabel(image);
+    ImageIcon image2 = new ImageIcon("src/Images/addIcon4.png");
+    private JButton newTask = new JButton(image2);
 
     private JButton reset = new JButton("Reset");
     private JButton update = new JButton("Update");
@@ -44,6 +46,7 @@ public class ToDoListView {
     }
 
     private void addElements() {
+        
         //Layout
         frame.setLayout(new BorderLayout());
         titlePanel.setLayout(new BorderLayout());
@@ -60,7 +63,6 @@ public class ToDoListView {
         table.setDefaultRenderer(JCheckBox.class, new JTableButtonRenderer(tableRenderer));
         table.setDefaultRenderer(JButton.class, new JTableButtonRenderer(tableRenderer));
 
-
         scrollP = new JScrollPane(table);
         taskList.add(scrollP, BorderLayout.CENTER);
         titlePanel.add(toDoList, BorderLayout.WEST);
@@ -70,15 +72,17 @@ public class ToDoListView {
         buttonsPanel.add(toDoneList);
 
         // Design
-        toDoList.setFont(new Font("Arial", Font.PLAIN, 35));
-        newTask.setBackground(new Color(189, 191, 242));
-        newTask.setBorder(BorderFactory.createLineBorder(Color.BLUE));
-        newTask.setOpaque(true);
+        newTask.setOpaque(false);
+        newTask.setContentAreaFilled(false);
+        newTask.setBorderPainted(false);
+        titlePanel.setBackground(new Color(255, 201, 92));
+        buttonsPanel.setBackground(new Color(112,193,179));
+        taskList.setBackground(new Color(112,193,179));
 
         // Borders
         titlePanel.setBorder(BorderFactory.createEmptyBorder(20, 60, 0, 60));
-        taskList.setBorder(BorderFactory.createEmptyBorder(20, 60, 20, 60));
-        buttonsPanel.setBorder(BorderFactory.createEmptyBorder(0, 60, 20, 60));
+        taskList.setBorder(BorderFactory.createEmptyBorder(20, 60, 0, 60));
+        buttonsPanel.setBorder(BorderFactory.createEmptyBorder(20, 60, 20, 60));
 
         //Buttons
         newTask.addActionListener(e -> controller.setAddTaskViewVis());

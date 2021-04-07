@@ -35,14 +35,16 @@ public class AddTask {
     DateField dateField = new DateField(dateFormatter);
 
     private JTextField titleF = new JTextField("");
-    private JTextField priorityF = new JTextField("0");
+
+    private String[] priorityF = {"1", "2", "3"};
+    private JComboBox priorities = new JComboBox(priorityF);
+
     private JTextField descriptionF = new JTextField("");
 
     private JButton cancel = new JButton("Cancel");
     private JButton add = new JButton("Add");
 
     public AddTask(Controller controller) {
-
 
         // Layout
         frame.setLayout(new BorderLayout());
@@ -61,14 +63,15 @@ public class AddTask {
         formular.add(dateField);
         dateField.setValue(LocalDate.now(ZoneId.systemDefault()));
         formular.add(priority);
-        formular.add(priorityF);
+        formular.add(priorities);
         formular.add(description);
         formular.add(descriptionF);
         buttonsPanel.add(cancel);
         buttonsPanel.add(add);
 
         // Design
-        newTask.setFont(new Font("Arial",Font.PLAIN,30));
+        newTask.setFont(new Font("",Font.PLAIN,30));
+        newTask.setForeground((new Color(145, 129, 225)));
         title.setBackground(new Color(189,191,242));
         title.setBorder(BorderFactory.createLineBorder(Color.BLUE));
         title.setOpaque(true);
@@ -81,11 +84,14 @@ public class AddTask {
         description.setBackground(new Color(189,191,242));
         description.setBorder(BorderFactory.createLineBorder(Color.BLUE));
         description.setOpaque(true);
+        titlePanel.setBackground(new Color(255, 201, 92));
+        formular.setBackground(new Color(112,193,179));
+        buttonsPanel.setBackground(new Color(112,193,179));
 
         // Borders
-        formular.setBorder(BorderFactory.createEmptyBorder(0,40,10,40));
+        formular.setBorder(BorderFactory.createEmptyBorder(10,40,15,40));
         titlePanel.setBorder(BorderFactory.createEmptyBorder(20,40,10,40));
-        buttonsPanel.setBorder(BorderFactory.createEmptyBorder(0,40,0,40));
+        buttonsPanel.setBorder(BorderFactory.createEmptyBorder(0,40,20,40));
 
         //ActionListeners
         cancel.addActionListener(e -> this.frame.dispose());
@@ -102,12 +108,21 @@ public class AddTask {
                     JCheckBox checkbox = new JCheckBox();
 
                     JButton delete = new JButton("Delete");
+                    delete.setOpaque(true);
+                    delete.setBackground(Color.DARK_GRAY);
+                    delete.repaint();
 
                     JButton details = new JButton("Details");
+                    details.setOpaque(true);
+                    details.setBackground(Color.DARK_GRAY);
+                    details.repaint();
 
                     JButton edit = new JButton("Edit");
+                    edit.setOpaque(true);
+                    edit.setBackground(Color.DARK_GRAY);
+                    edit.repaint();
 
-                    TaskData data = new TaskData(titleF.getText(), dateField.getText(), Integer.parseInt(priorityF.getText()), descriptionF.getText());
+                    TaskData data = new TaskData(titleF.getText(), dateField.getText(), Integer.parseInt((String) priorities.getSelectedItem()), descriptionF.getText());
                     RowData row = new RowData(titleF.getText(), checkbox, delete, details, edit );
                     controller.newTask(data, row);
                     controller.setToDoListViewVis();

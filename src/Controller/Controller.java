@@ -31,24 +31,27 @@ public class Controller {
     }
 
     public void setToDoListViewVis() {
-        cleanView();
+        cleanMainView();
         toDoListView = new ToDoListView(this);
     }
 
     public void setDoneListViewVis() {
-        cleanView();
+        cleanMainView();
         doneListView = new DoneListView(this);
     }
 
     public void setAddTaskViewVis() {
+        cleanSmallView();
         addTask = new AddTask(this);
     }
 
     public void setDetailViewVis(int index) {
+        cleanSmallView();
         detailView = new DetailView(this, index);
     }
 
     public void setEditTaskVis(int index) {
+        cleanSmallView();
         editTask = new EditTask(this, index);
     }
 
@@ -72,7 +75,7 @@ public class Controller {
         return model.getDoneTasksRow();
     }
 
-    private void cleanView() {
+    private void cleanMainView() {
 
         if (toDoListView != null) {
             toDoListView.DisposeView();
@@ -80,6 +83,19 @@ public class Controller {
         if (doneListView != null) {
             doneListView.DisposeView();
         }
+        if (addTask != null) {
+            addTask.DisposeView();
+        }
+        if (detailView != null) {
+            detailView.DisposeView();
+        }
+        if (editTask != null) {
+            editTask.DisposeView();
+        }
+    }
+
+    private void cleanSmallView() {
+
         if (addTask != null) {
             addTask.DisposeView();
         }

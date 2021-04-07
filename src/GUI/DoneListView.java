@@ -26,7 +26,8 @@ public class DoneListView {
     private JTable table;
     private JScrollPane scrollP;
 
-    private JLabel toDoList = new JLabel("Done-List");
+    ImageIcon image = new ImageIcon("src/Images/generatedtext2.png");
+    private JLabel doneList = new JLabel(image);
     private JButton newTask = new JButton("   + New task   ");
 
     private JButton reset = new JButton("Reset");
@@ -64,28 +65,39 @@ public class DoneListView {
 
         scrollP = new JScrollPane(table);
         taskList.add(scrollP, BorderLayout.CENTER);
-        titlePanel.add(toDoList, BorderLayout.WEST);
+        titlePanel.add(doneList, BorderLayout.WEST);
         titlePanel.add(newTask, BorderLayout.EAST);
         buttonsPanel.add(reset);
         buttonsPanel.add(update);
         buttonsPanel.add(toToDoList);
 
         // Design
-        toDoList.setFont(new Font("Arial", Font.PLAIN, 35));
         newTask.setVisible(false);
+        titlePanel.setBackground(new Color(255, 201, 92));
+        buttonsPanel.setBackground(new Color(242, 95, 92));
+        taskList.setBackground(new Color(242, 95, 92));
 
         // Borders
         titlePanel.setBorder(BorderFactory.createEmptyBorder(20, 60, 0, 60));
-        taskList.setBorder(BorderFactory.createEmptyBorder(20, 60, 20, 60));
-        buttonsPanel.setBorder(BorderFactory.createEmptyBorder(0, 60, 20, 60));
+        taskList.setBorder(BorderFactory.createEmptyBorder(20, 60, 0, 60));
+        buttonsPanel.setBorder(BorderFactory.createEmptyBorder(20, 60, 20, 60));
 
         //Buttons
         toToDoList.addActionListener(e -> controller.setToDoListViewVis());
         reset.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                controller.deleteAllTasks();
-                controller.setDoneListViewVis();
+                //default icon, custom title
+                Object[] options = {"Yes, please",
+                        "No way!"};
+                int n = JOptionPane.showOptionDialog(frame,
+                        "Are you sure you would like to reset your To-Do List?",
+                        "A Silly Question", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
+                if (n == JOptionPane.YES_OPTION){
+                    controller.deleteAllTasks();
+                    controller.setToDoListViewVis();
+                }
+
             }
         });
         update.addActionListener(new ActionListener() {
