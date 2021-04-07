@@ -112,6 +112,7 @@ public class AddTask {
                     controller.newTask(data, row);
                     controller.setToDoListViewVis();
                 }
+
             }
         });
 

@@ -86,8 +86,17 @@ public class ToDoListView {
         reset.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                controller.deleteAllTasks();
-                controller.setToDoListViewVis();
+                //default icon, custom title
+                Object[] options = {"Yes, please",
+                        "No way!"};
+                int n = JOptionPane.showOptionDialog(frame,
+                        "Are you sure you would like to reset your To-Do List?",
+                        "A Silly Question", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
+                if (n == JOptionPane.YES_OPTION){
+                    controller.deleteAllTasks();
+                    controller.setToDoListViewVis();
+                }
+
             }
         });
         update.addActionListener(new ActionListener() {

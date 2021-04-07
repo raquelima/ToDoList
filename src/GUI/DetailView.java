@@ -28,6 +28,7 @@ public class DetailView extends JFrame implements ActionListener {
     private JTextField descriptionF = new JTextField("");
 
     private JButton back = new JButton("Back to list");
+    private JButton edit = new JButton("Edit");
 
     public DetailView(Controller controller, int index) {
         this.controller = controller;
@@ -45,7 +46,7 @@ public class DetailView extends JFrame implements ActionListener {
         frame.setLayout(new BorderLayout());
         formular.setLayout(new GridLayout(4,2,5,10));
         titlePanel.setLayout(new BorderLayout());
-        buttonsPanel.setLayout(new BorderLayout());
+        buttonsPanel.setLayout(new GridLayout(1,2));
         frame.add(formular, BorderLayout.CENTER);
         frame.add(titlePanel, BorderLayout.NORTH);
         frame.add(buttonsPanel, BorderLayout.SOUTH);
@@ -72,6 +73,7 @@ public class DetailView extends JFrame implements ActionListener {
         descriptionF.setText(task.getDescription());
         descriptionF.setEditable(false);
         buttonsPanel.add(back);
+        buttonsPanel.add(edit);
 
         // Design
         newTask.setFont(new Font("Arial",Font.PLAIN,30));
@@ -95,7 +97,7 @@ public class DetailView extends JFrame implements ActionListener {
 
         //Button
         back.addActionListener(e -> this.frame.dispose());
-
+        edit.addActionListener(e -> controller.setEditTaskVis(index));
     }
 
     public void DisposeView() {
