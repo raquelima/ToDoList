@@ -108,19 +108,19 @@ public class AddTask {
                     JCheckBox checkbox = new JCheckBox();
 
                     JButton delete = new JButton("Delete");
-                    delete.setOpaque(true);
+                    /*delete.setOpaque(true);
                     delete.setBackground(Color.DARK_GRAY);
-                    delete.repaint();
+                    delete.repaint();*/
 
                     JButton details = new JButton("Details");
-                    details.setOpaque(true);
+                    /*details.setOpaque(true);
                     details.setBackground(Color.DARK_GRAY);
-                    details.repaint();
+                    details.repaint();*/
 
                     JButton edit = new JButton("Edit");
-                    edit.setOpaque(true);
+                    /*edit.setOpaque(true);
                     edit.setBackground(Color.DARK_GRAY);
-                    edit.repaint();
+                    edit.repaint();*/
 
                     TaskData data = new TaskData(titleF.getText(), dateField.getText(), Integer.parseInt((String) priorities.getSelectedItem()), descriptionF.getText());
                     RowData row = new RowData(titleF.getText(), checkbox, delete, details, edit );

@@ -27,7 +27,7 @@ public class ToDoListView {
 
     ImageIcon image = new ImageIcon("src/Images/generatedtext.png");
     private JLabel toDoList = new JLabel(image);
-    ImageIcon image2 = new ImageIcon("src/Images/addIcon4.png");
+    ImageIcon image2 = new ImageIcon("src/Images/addIcon.png");
     private JButton newTask = new JButton(image2);
 
     private JButton reset = new JButton("Reset");
