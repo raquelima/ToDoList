@@ -14,9 +14,6 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 
-import static com.sun.tools.internal.xjc.reader.Ring.add;
-
-
 public class AddTask {
 
     private JFrame frame = new JFrame();

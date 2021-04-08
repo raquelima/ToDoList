@@ -2,7 +2,6 @@ package GUI;
 
 import Controller.Controller;
 import Data.RowData;
-import Data.TaskData;
 
 import javax.swing.*;
 import javax.swing.table.AbstractTableModel;
