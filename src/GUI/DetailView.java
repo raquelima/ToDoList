@@ -41,6 +41,17 @@ public class DetailView extends JFrame implements ActionListener {
         frame.setVisible(true);
     }
 
+    public DetailView(Controller controller, int index, int placeHolder) {
+        this.controller = controller;
+
+        addElements(index, placeHolder);
+
+        //Window Settings
+        frame.setTitle("Detail View");
+        frame.setSize(500, 400);
+        frame.setVisible(true);
+    }
+
     private void addElements(int index){
         // Layout
         frame.setLayout(new BorderLayout());
@@ -102,6 +113,67 @@ public class DetailView extends JFrame implements ActionListener {
         //Button
         back.addActionListener(e -> this.frame.dispose());
         edit.addActionListener(e -> controller.setEditTaskVis(index));
+    }
+
+    private void addElements(int index, int placeHolder){
+        // Layout
+        frame.setLayout(new BorderLayout());
+        formular.setLayout(new GridLayout(4,2,5,10));
+        titlePanel.setLayout(new BorderLayout());
+        buttonsPanel.setLayout(new GridLayout(1,1));
+        frame.add(formular, BorderLayout.CENTER);
+        frame.add(titlePanel, BorderLayout.NORTH);
+        frame.add(buttonsPanel, BorderLayout.SOUTH);
+
+        // Elements
+        TaskData task = controller.getTaskDetails(index);
+
+        titlePanel.add(newTask);
+        newTask.setText(task.getTitle());
+        formular.add(title);
+        formular.add(titleF);
+        titleF.setText(task.getTitle());
+        titleF.setEditable(false);
+        formular.add(dueDate);
+        formular.add(dueDateF);
+        dueDateF.setText(task.getDueDate());
+        dueDateF.setEditable(false);
+        formular.add(priority);
+        formular.add(priorityF);
+        priorityF.setText(String.valueOf(task.getPriority()));
+        priorityF.setEditable(false);
+        formular.add(description);
+        formular.add(descriptionF);
+        descriptionF.setText(task.getDescription());
+        descriptionF.setEditable(false);
+        buttonsPanel.add(back);
+
+        // Design
+        newTask.setFont(new Font("",Font.PLAIN,30));
+        newTask.setForeground((new Color(145, 129, 225)));
+        title.setBackground(new Color(189,191,242));
+        title.setBorder(BorderFactory.createLineBorder(Color.BLUE));
+        title.setOpaque(true);
+        dueDate.setBackground(new Color(189,191,242));
+        dueDate.setBorder(BorderFactory.createLineBorder(Color.BLUE));
+        dueDate.setOpaque(true);
+        priority.setBackground(new Color(189,191,242));
+        priority.setBorder(BorderFactory.createLineBorder(Color.BLUE));
+        priority.setOpaque(true);
+        description.setBackground(new Color(189,191,242));
+        description.setBorder(BorderFactory.createLineBorder(Color.BLUE));
+        description.setOpaque(true);
+        titlePanel.setBackground(new Color(255, 201, 92));
+        formular.setBackground(new Color(242, 95, 92));
+        buttonsPanel.setBackground(new Color(242, 95, 92));
+
+        // Borders
+        formular.setBorder(BorderFactory.createEmptyBorder(10,40,15,40));
+        titlePanel.setBorder(BorderFactory.createEmptyBorder(20,40,10,40));
+        buttonsPanel.setBorder(BorderFactory.createEmptyBorder(0,40,20,40));
+
+        //Button
+        back.addActionListener(e -> this.frame.dispose());
     }
 
     public void DisposeView() {

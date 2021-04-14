@@ -60,6 +60,7 @@ public class DoneListView {
         tableRenderer = table.getDefaultRenderer(JButton.class);
         table.setDefaultRenderer(JCheckBox.class, new JTableButtonRenderer(tableRenderer));
         table.setDefaultRenderer(JButton.class, new JTableButtonRenderer(tableRenderer));
+        table.getTableHeader().setReorderingAllowed(false);
 
 
         scrollP = new JScrollPane(table);
@@ -144,7 +145,7 @@ public class DoneListView {
                         b.addActionListener(new ActionListener() {
                             @Override
                             public void actionPerformed(ActionEvent e) {
-                                controller.setDetailViewVis(rowindex);
+                                controller.setDetailViewVis(rowindex, 1);
                             }
                         });
                     }
@@ -152,8 +153,16 @@ public class DoneListView {
                 }
                 if (cell instanceof JCheckBox){
                     JCheckBox c = (JCheckBox) table.getModel().getValueAt(rowindex, columindex);
-                    c.setSelected(false);
+                    boolean checker = true;
+                    if (!c.isSelected()){
+                        checker = true;
+                    }
+                    if(c.isSelected()){
+                        checker = false;
+                    }
+                    c.setSelected(checker);
                     controller.setDoneListViewVis();
+
                 }
                 super.mouseClicked(e);
             }

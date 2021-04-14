@@ -60,6 +60,7 @@ public class ToDoListView {
         tableRenderer = table.getDefaultRenderer(JButton.class);
         table.setDefaultRenderer(JCheckBox.class, new JTableButtonRenderer(tableRenderer));
         table.setDefaultRenderer(JButton.class, new JTableButtonRenderer(tableRenderer));
+        table.getTableHeader().setReorderingAllowed(false);
 
         scrollP = new JScrollPane(table);
         taskList.add(scrollP, BorderLayout.CENTER);
@@ -163,10 +164,17 @@ public class ToDoListView {
                 }
                 if (cell instanceof JCheckBox){
                     JCheckBox c = (JCheckBox) table.getModel().getValueAt(rowindex, columindex);
-                    c.setSelected(true);
+                    boolean checker = true;
+                    if (!c.isSelected()){
+                        checker = true;
+                    }
+                    if(c.isSelected()){
+                        checker = false;
+                    }
+                    c.setSelected(checker);
                     controller.setToDoListViewVis();
-                }
 
+                }
                 super.mouseClicked(e);
             }
         });

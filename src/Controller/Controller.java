@@ -50,6 +50,11 @@ public class Controller {
         detailView = new DetailView(this, index);
     }
 
+    public void setDetailViewVis(int index, int placeHolder) {
+        cleanSmallView();
+        detailView = new DetailView(this, index, placeHolder);
+    }
+
     public void setEditTaskVis(int index) {
         cleanSmallView();
         editTask = new EditTask(this, index);
