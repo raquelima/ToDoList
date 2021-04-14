@@ -104,11 +104,6 @@ public class AddTask {
                 } else {
                     JCheckBox checkbox = new JCheckBox();
 
-                    JButton delete = new JButton("Delete");
-                    delete.setOpaque(true);
-                    delete.setBackground(new Color(255,105,97));
-                    delete.repaint();
-
                     JButton details = new JButton("Details");
                     details.setOpaque(true);
                     details.setBackground(new Color(255, 220, 133));
@@ -119,8 +114,13 @@ public class AddTask {
                     edit.setBackground(new Color(184, 168, 240));
                     edit.repaint();
 
+                    JButton delete = new JButton("Delete");
+                    delete.setOpaque(true);
+                    delete.setBackground(new Color(255,105,97));
+                    delete.repaint();
+
                     TaskData data = new TaskData(titleF.getText(), dateField.getText(), Integer.parseInt((String) priorities.getSelectedItem()), descriptionF.getText());
-                    RowData row = new RowData(titleF.getText(), checkbox, delete, details, edit );
+                    RowData row = new RowData(titleF.getText(), checkbox, details, edit, delete );
                     controller.newTask(data, row);
                     controller.setToDoListViewVis();
                 }

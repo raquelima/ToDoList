@@ -9,7 +9,7 @@ public class RowData {
     private JButton edit;
     private JButton details;
 
-    public RowData(String title, JCheckBox checkBox, JButton delete, JButton edit, JButton details) {
+    public RowData(String title, JCheckBox checkBox, JButton details, JButton edit, JButton delete) {
         this.title = title;
         this.checkBox = checkBox;
         this.delete = delete;
@@ -58,6 +58,10 @@ public class RowData {
     }
 
     public Object[] getAsArray(){
-        return new Object[]{getTitle(),getCheckBox(),getDelete(),getEdit(),getDetails()};
+        return new Object[]{getTitle(),getCheckBox(),getDetails(),getEdit(),getDelete()};
+    }
+
+    public Object[] getAsArrayDone(){
+        return new Object[]{getTitle(),getCheckBox(),getDetails(),getDelete()};
     }
 }

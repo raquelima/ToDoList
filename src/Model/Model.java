@@ -57,7 +57,7 @@ public class Model {
 
     public AbstractTableModel getModel() {
 
-        String[] reihen = new String[]{"Title", "Checkbox", "Delete", "Details", "Edit"};
+        String[] reihen = new String[]{"Title", "Checkbox", "Details", "Edit", "Delete"};
 
         return new AbstractTableModel() {
             @Override
@@ -88,7 +88,7 @@ public class Model {
 
     public AbstractTableModel getDoneModel() {
 
-        String[] reihen = new String[]{"Title", "Checkbox", "Delete", "Details"};
+        String[] reihen = new String[]{"Title", "Checkbox", "Details", "Delete"};
 
         return new AbstractTableModel() {
             @Override
@@ -103,7 +103,7 @@ public class Model {
 
             @Override
             public Object getValueAt(int rowIndex, int columnIndex) {
-                return doneTasksRow.get(rowIndex).getAsArray()[columnIndex];
+                return doneTasksRow.get(rowIndex).getAsArrayDone()[columnIndex];
             }
 
             public String getColumnName(int column) {
